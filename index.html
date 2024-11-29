@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WildLens Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+  <header>
+                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    
+    <h1>WildLens</h1>
+    <nav>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#map">Migration Map</a>
+      <a href="#alerts">Alerts</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+      <h2>Species Monitoring Dashboard</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Species</th>
+            <th>Population</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="species-table">
+          <!-- Data will be dynamically added here -->
+        </tbody>
+      </table>
+    </section>
+    <input type="text" id="search-bar" placeholder="Search species..." oninput="filterSpecies()">
+
+
+    <!-- Map Section -->
+    <section id="map">
+      <h2>Species Migration Map</h2>
+      <div id="map-container"></div>
+    </section>
+
+    <!-- Alerts Section -->
+    <section id="alerts">
+      <h2>Threat Alerts</h2>
+      <ul id="alerts-list">
+        <!-- Alerts will be dynamically added here -->
+      </ul>
+    </section>
+    <form id="observation-form">
+      <input type="text" id="species-name" placeholder="Species Name" required>
+      <input type="number" id="population" placeholder="Population" required>
+      <button type="submit">Submit Observation</button>
+    </form>
+    <div id="observation-result"></div>
+    <canvas id="population-chart" width="400" height="200"></canvas>
+
+    <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    
+  </main>
+
+  <footer>
+    <p>WildLens &copy; 2024</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="map.js"></script>
+  <script src="chart.js"></script> 
+  <script src="search.js"></script>
+  <script src="table.js"></script>
+  <script src="sub.js"></script>
+  <script src="js/map.js"></script>
+
+</body>
+</html>
