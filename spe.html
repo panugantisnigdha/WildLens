@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Species Dashboard</title>
+    <style>
+        :root {
+            --primary: #1e4d2b;
+            --secondary: #a8c090;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --success: #28a745;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Species Summary Section */
+        .species-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Species Details Table */
+        .species-table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .species-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .species-table th,
+        .species-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .species-table th {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        .species-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-critical {
+            background: var(--danger);
+            color: white;
+        }
+
+        .status-endangered {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .status-vulnerable {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Population Trends */
+        .population-trends {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .trend-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .trend-chart {
+            height: 200px;
+            background: var(--light);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* Habitat Distribution */
+        .habitat-distribution {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .distribution-map {
+            height: 400px;
+            background: var(--light);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* Conservation Actions */
+        .conservation-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-status {
+            margin-top: 1rem;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .status-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Alerts Section */
+        .alerts-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-item {
+            padding: 1rem;
+            border-left: 4px solid var(--warning);
+            background: var(--light);
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 10px;
+            }
+
+            .species-summary,
+            .population-trends,
+            .conservation-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .species-table-container {
+                overflow-x: scroll;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="species-summary">
+            <div class="summary-card">
+                <div class="summary-header">
+                    <h3>Total Species</h3>
+                    <div class="summary-icon">T</div>
+                </div>
+                <h2>147</h2>
+                <p>Monitored Species</p>
+            </div>
+            <div class="summary-card">
+                <div class="summary-header">
+                    <h3>Critical</h3>
+                    <div class="summary-icon">C</div>
+                </div>
+                <h2>42</h2>
+                <p>Require Immediate Action</p>
+            </div>
+            <div class="summary-card">
+                <div class="summary-header">
+                    <h3>Recovery</h3>
+                    <div class="summary-icon">R</div>
+                </div>
+                <h2>15</h2>
+                <p>Showing Population Growth</p>
+            </div>
+        </div>
+
+        <div class="species-table-container">
+            <h2>Species Status</h2>
+            <table class="species-table">
+                <thead>
+                    <tr>
+                        <th>Species Name</th>
+                        <th>Population</th>
+                        <th>Status</th>
+                        <th>Trend</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bengal Tiger</td>
+                        <td>2,967</td>
+                        <td><span class="status-badge status-endangered">Endangered</span></td>
+                        <td>↑ 5.2%</td>
+                        <td>Central India</td>
+                    </tr>
+                    <tr>
+                        <td>Asian Elephant</td>
+                        <td>27,312</td>
+                        <td><span class="status-badge status-vulnerable">Vulnerable</span></td>
+                        <td>↓ 2.1%</td>
+                        <td>Southern India</td>
+                    </tr>
+                    <tr>
+                        <td>Snow Leopard</td>
+                        <td>758</td>
+                        <td><span class="status-badge status-critical">Critical</span></td>
+                        <td>↓ 8.7%</td>
+                        <td>Himalayan Region</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="population-trends">
+            <div class="trend-card">
+                <h3>Population Trend</h3>
+                <div class="trend-chart"></div>
+            </div>
+            <div class="trend-card">
+                <h3>Age Distribution</h3>
+                <div class="trend-chart"></div>
+            </div>
+        </div>
+
+        <div class="habitat-distribution">
+            <h2>Habitat Distribution</h2>
+            <div class="distribution-map"></div>
+        </div>
+
+        <div class="conservation-actions">
+            <div class="action-card">
+                <h3>Anti-Poaching Efforts</h3>
+                <p>Coverage: 85% of Protected Areas</p>
+                <div class="action-status">
+                    <div class="status-bar" style="width: 85%"></div>
+                </div>
+            </div>
+            <div class="action-card">
+                <h3>Habitat Restoration</h3>
+                <p>Progress: 62% Completed</p>
+                <div class="action-status">
+                    <div class="status-bar" style="width: 62%"></div>
+                </div>
+            </div>
+            <div class="action-card">
+                <h3>Community Programs</h3>
+                <p>Engagement: 73% of Target</p>
+                <div class="action-status">
+                    <div class="status-bar" style="width: 73%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alerts-section">
+            <h2>Recent Alerts</h2>
+            <div class="alert-item">
+                <h4>Poaching Attempt Detected</h4>
+                <p>Location: Bandipur National Park</p>
+                <small>2 hours ago</small>
+            </div>
+            <div class="alert-item">
+                <h4>New Tiger Cubs Spotted</h4>
+                <p>Location: Ranthambore Tiger Reserve</p>
+                <small>1 day ago</small>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

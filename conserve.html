@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wildlife Conservation Dashboard</title>
+    <style>
+        :root {
+            --primary: #2c5f2d;
+            --secondary: #97bc62;
+            --accent: #ffb347;
+            --danger: #ff6b6b;
+            --success: #4caf50;
+            --warning: #ffd93d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Conservation Overview Section */
+        .conservation-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Project Status Section */
+        .project-status {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .status-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Conservation Areas Map */
+        .conservation-map {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-container {
+            height: 400px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        /* Species Recovery Section */
+        .species-recovery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .recovery-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .species-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        /* Threat Monitoring */
+        .threat-monitoring {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .threat-card {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #dee2e6;
+        }
+
+        .threat-level {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .level-high {
+            background: var(--danger);
+            color: white;
+        }
+
+        .level-medium {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .level-low {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-list {
+            margin-top: 1rem;
+        }
+
+        .activity-item {
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+            background: var(--light);
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .activity-time {
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        /* Resource Allocation */
+        .resource-allocation {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-chart {
+            height: 300px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 10px;
+            }
+
+            .conservation-overview,
+            .status-grid,
+            .species-recovery,
+            .threat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .map-container {
+                height: 300px;
+            }
+        }
+
+        /* Additional Utility Classes */
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .text-success {
+            color: var(--success);
+        }
+
+        .text-danger {
+            color: var(--danger);
+        }
+
+        .text-warning {
+            color: var(--warning);
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="conservation-overview">
+            <div class="overview-card">
+                <div class="overview-header">
+                    <h3>Protected Areas</h3>
+                </div>
+                <div class="metric-value">2,837</div>
+                <p>Square Kilometers</p>
+            </div>
+            <div class="overview-card">
+                <div class="overview-header">
+                    <h3>Species Protected</h3>
+                </div>
+                <div class="metric-value">147</div>
+                <p>Under Active Conservation</p>
+            </div>
+            <div class="overview-card">
+                <div class="overview-header">
+                    <h3>Success Rate</h3>
+                </div>
+                <div class="metric-value">78%</div>
+                <p>Recovery Programs</p>
+            </div>
+        </div>
+
+        <div class="project-status">
+            <h2>Conservation Projects</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <h3>Tiger Conservation</h3>
+                    <p>Budget Utilized: ₹2.4Cr</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <h3>Elephant Corridors</h3>
+                    <p>Implementation: 62%</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 62%"></div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <h3>Wetland Protection</h3>
+                    <p>Area Coverage: 85%</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conservation-map">
+            <h2>Protected Areas Network</h2>
+            <div class="map-container"></div>
+        </div>
+
+        <div class="threat-monitoring">
+            <h2>Threat Assessment</h2>
+            <div class="threat-grid">
+                <div class="threat-card">
+                    <h3>Poaching Activity</h3>
+                    <p>15 incidents reported</p>
+                    <span class="threat-level level-high">High Risk</span>
+                </div>
+                <div class="threat-card">
+                    <h3>Habitat Loss</h3>
+                    <p>8% decline in forest cover</p>
+                    <span class="threat-level level-medium">Medium Risk</span>
+                </div>
+                <div class="threat-card">
+                    <h3>Human-Wildlife Conflict</h3>
+                    <p>32 cases resolved</p>
+                    <span class="threat-level level-low">Low Risk</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-feed">
+            <h2>Recent Activities</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <h4>New Tiger Cubs Spotted</h4>
+                    <p>3 cubs sighted in Ranthambore</p>
+                    <span class="activity-time">2 hours ago</span>
+                </div>
+                <div class="activity-item">
+                    <h4>Anti-Poaching Operation</h4>
+                    <p>Successfully conducted in Kaziranga</p>
+                    <span class="activity-time">1 day ago</span>
+                </div>
+                <div class="activity-item">
+                    <h4>Community Workshop</h4>
+                    <p>50 local residents trained</p>
+                    <span class="activity-time">2 days ago</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-allocation">
+            <h2>Resource Distribution</h2>
+            <div class="resource-chart"></div>
+        </div>
+    </div>
+</body>
+
+</html>

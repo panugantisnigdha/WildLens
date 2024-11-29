@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Species Analysis Dashboard</title>
+    <style>
+        /* Core Analysis Styles */
+        .analysis-container {
+            margin-top: 2rem;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analysis-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid #2c5f2d;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: #28a745;
+        }
+
+        .trend-down {
+            color: #dc3545;
+        }
+
+        /* Habitat Analysis Styles */
+        .habitat-map {
+            height: 400px;
+            background: #e9ecef;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .habitat-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Threat Analysis Styles */
+        .threat-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .threat-item {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .threat-level {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .level-high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .level-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .level-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Population Analysis Styles */
+        .population-trends {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .trend-chart {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .demographic-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Conservation Success Metrics */
+        .success-metrics {
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4caf50;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5f2d;
+        }
+
+        /* AI Prediction Section */
+        .prediction-panel {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .prediction-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .confidence-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .confidence-level {
+            height: 100%;
+            background: #4caf50;
+            border-radius: 4px;
+        }
+
+        /* Data Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Additional Analysis Components */
+        .genetic-diversity {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .diversity-chart {
+            height: 250px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .behavioral-analysis {
+            margin-top: 2rem;
+        }
+
+        .behavior-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .behavior-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border-top: 4px solid #2196f3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="analysis-container">
+        <h2>Detailed Species Analysis</h2>
+
+        <div class="analysis-grid">
+            <div class="analysis-card">
+                <h3>Population Distribution</h3>
+                <div class="trend-indicator">
+                    <span class="trend-up">↑</span>
+                    <span>12% increase in protected areas</span>
+                </div>
+                <div class="trend-chart"></div>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Habitat Analysis</h3>
+                <div class="habitat-map"></div>
+                <div class="habitat-stats">
+                    <div>Forest Cover: 42%</div>
+                    <div>Grassland: 28%</div>
+                    <div>Wetland: 30%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="threat-matrix">
+            <h3>Threat Assessment</h3>
+            <div class="threat-item">
+                <h4>Habitat Loss</h4>
+                <p>Primary cause: Deforestation</p>
+                <span class="threat-level level-high">High Risk</span>
+            </div>
+            <div class="threat-item">
+                <h4>Poaching</h4>
+                <p>Decreased by 15% annually</p>
+                <span class="threat-level level-medium">Medium Risk</span>
+            </div>
+            <div class="threat-item">
+                <h4>Human Conflict</h4>
+                <p>Managed through corridors</p>
+                <span class="threat-level level-low">Low Risk</span>
+            </div>
+        </div>
+
+        <div class="genetic-diversity">
+            <h3>Genetic Diversity Analysis</h3>
+            <div class="diversity-chart"></div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Species</th>
+                        <th>Genetic Variance</th>
+                        <th>Population Viability</th>
+                        <th>Inbreeding Coefficient</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bengal Tiger</td>
+                        <td>0.82</td>
+                        <td>High</td>
+                        <td>0.12</td>
+                    </tr>
+                    <tr>
+                        <td>Asian Elephant</td>
+                        <td>0.78</td>
+                        <td>Medium</td>
+                        <td>0.15</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="prediction-panel">
+            <h3>AI Predictions</h3>
+            <div class="prediction-grid">
+                <div class="prediction-card">
+                    <h4>Population Forecast</h4>
+                    <p>Expected 15% growth by 2025</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-level" style="width: 85%;"></div>
+                    </div>
+                    <small>Confidence: 85%</small>
+                </div>
+                <div class="prediction-card">
+                    <h4>Habitat Viability</h4>
+                    <p>Sustainable for next 50 years</p>
+                    <div class="confidence-bar">
+                        <div class="confidence-level" style="width: 92%;"></div>
+                    </div>
+                    <small>Confidence: 92%</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="behavioral-analysis">
+            <h3>Behavioral Patterns</h3>
+            <div class="behavior-grid">
+                <div class="behavior-card">
+                    <h4>Migration Routes</h4>
+                    <p>3 major corridors identified</p>
+                    <ul>
+                        <li>Northern Circuit: 450km</li>
+                        <li>Central Pathway: 280km</li>
+                        <li>Southern Route: 320km</li>
+                    </ul>
+                </div>
+                <div class="behavior-card">
+                    <h4>Breeding Patterns</h4>
+                    <p>Seasonal variations observed</p>
+                    <ul>
+                        <li>Peak Season: March-May</li>
+                        <li>Secondary Peak: Sept-Nov</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
